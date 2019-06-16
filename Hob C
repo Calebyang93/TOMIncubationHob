@@ -1,0 +1,480 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <wiringPi.h>
+
+/*#define GPIO18 12 
+#define GPIO23 16
+#define GPIO4 7
+#define GPIO17 11
+#define GPIO27 13*/
+int Function=0;
+int degree=0;
+//void Timer();
+int power = 0;
+int state = 0; // 1 - STIRFRY, 2- TEMPERATURE, 3-TIMER
+int plusminus = 0;
+int timeronoff = 0; 
+void play240();
+int time = 0;
+
+int main()
+{
+	wiringPiSetup() ;
+	pinMode(0, INPUT);  //configure GPIO4 as input //Power On
+	pinMode(7, INPUT);
+	pinMode(21, INPUT);
+	pinMode(22, INPUT); // function
+	pinMode(2, INPUT); // 
+	
+	if (wiringPiSetup () == -1) 
+	{
+		exit(1);
+	}
+	printf("HOB\n");
+	printf("Select 1 to press Power\nSelect 2 to press FunctionBtn\nSelect 3 to press TimerBtn\nSelect 4 to press PlusBtn\nSelect 5 to press MinusBtn\n");
+	system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_StartingUp.mp3");
+	while (1)
+	{
+		if (digitalRead(0) == 1 && power == 0)
+		{
+			printf("Turn_On.wav\n");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_PowerOn.mp3");
+			power = 1; 
+			time = 10;
+		}
+		if (digitalRead(0) == 1 && power == 1)
+		{
+			printf("Turn_Off.wav\n");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_PowerOff.mp3");
+			power = 0; 
+			time = 0;
+			Function=0;
+			degree=0;
+			state = 0;
+		}
+		else if (digitalRead(7) == 1 && state == 2) // degree + 
+		{
+			degree = degree + 20;
+			plusminus = 1;
+		}
+		else if (digitalRead(21) == 1 && state ==2) // degree -
+		{
+			printf("MINUS");
+			degree = degree - 20;
+			plusminus = 1; 
+		}
+		else if (digitalRead(7) == 1 && state == 3)
+		{
+			time++;
+			plusminus = 1; 
+		}
+		else if (digitalRead(21) == 1 && state == 3)
+		{
+			time--;
+			plusminus = 1; 
+		}
+		else if (digitalRead(22) == 1 && power==1) // function button
+		{	
+				if(Function == 0)
+				{
+					system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_HotPot.mp3");
+					state = 11;
+				}
+				else if (Function == 1)
+				{
+					system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_StirFry.mp3");
+					degree = 240; // TODO: funvtion to playe 240 
+					state = 2; //stir fry state
+					play240();
+				}
+				else if (Function == 2)
+				{
+					system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_Soup.mp3");
+					state = 13;
+				}
+				else if (Function == 3)
+				{
+					system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_Water.mp3");
+					state = 14;
+				}
+				else if (Function == 4)
+				{
+					system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_Rice.mp3");
+					state = 15;
+				}
+				else if( Function == 5)
+				{
+					system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_HotPot.mp3");
+					state = 11;
+					Function = 0;
+				}
+				Function++;
+		}
+		/*else if (digitalRead(22) ==1 && power ==1 && state == 1) { //temperature function
+			state = 2; 
+			degree = 240;
+			play240();
+			
+		}*/
+		
+		else if (digitalRead(2) == 1 && power ==1 && timeronoff == 0) 
+		{
+			
+				state = 3;
+				timeronoff = 1; //turn on timer mode
+				printf("TIMER TURNED ON\n");
+				system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_TimerMode.mp3");
+		}	
+	
+		else if (digitalRead(2) == 1 && power ==1 && timeronoff == 1){
+				
+				timeronoff = 0; // turn off timer mode
+				printf("TIMER TURNED OFF\n");
+				state = 2;
+				system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_TimerSet.mp3");
+
+		}
+		
+		else
+		{
+			printf("Null");
+		}
+	
+		if (time == 1 && plusminus==1 && state==3)
+		{
+			printf("1Min.wav");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_1M.mp3");
+			plusminus = 0;
+		}
+		else if (time == 2 && plusminus==1 && state==3)
+		{
+			printf("2Min.wav");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_2M.mp3");
+			plusminus = 0;
+		}
+				else if (time == 0 && plusminus==1 && state==3)
+		{
+			time = 1;
+			printf("1Min.wav");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_1M.mp3");
+			plusminus = 0;
+		}
+		else if (time == 3 && plusminus==1 && state==3)
+		{
+			printf("3Min.wav");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_3M.mp3");
+			plusminus = 0;
+		}
+		else if (time == 4 && plusminus==1 && state==3)
+		{
+			printf("4Min.wav");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_4M.mp3");
+			plusminus = 0;
+		}
+		else if (time == 5 && plusminus==1 && state==3)
+		{
+			printf("5Min.wav");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_5M.mp3");
+			plusminus = 0;
+		}
+		else if (time == 6 && plusminus==1 && state==3)
+		{
+			printf("6Min.wav");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_6M.mp3");
+			plusminus = 0;
+		}
+		else if (time == 7 && plusminus==1 && state==3)
+		{
+			printf("7Min.wav");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_7M.mp3");
+			plusminus = 0;
+		}
+		else if (time == 8 && plusminus==1 && state==3)
+		{
+			printf("8Min.wav");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_8M.mp3");
+			plusminus = 0;
+		}
+		else if (time == 9 && plusminus==1 && state==3)
+		{
+			printf("9Min.wav");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_9M.mp3");
+			plusminus = 0;
+		}
+		else if (time == 10 && plusminus==1 && state==3)
+		{
+			printf("10Min.wav \n");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_10M.mp3");
+			plusminus = 0;
+		}
+		else if (time == 11 && plusminus==1 && state==3)
+		{
+			printf("11Min.wav \n");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_11M.mp3");
+			plusminus = 0;
+		}
+		else if (time == 12 && plusminus==1 && state==3)
+		{
+			printf("12Min.wav \n");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_12M.mp3");
+			plusminus = 0;
+		}
+		else if (time == 13 && plusminus==1  && state==3)
+		{
+			printf("13Min.wav \n");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_13M.mp3");
+			plusminus = 0;
+		}	
+		else if (time == 14 && plusminus==1  && state==3)
+		{
+			printf("14Min.wav \n");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_14M.mp3");
+			plusminus = 0;
+		}		
+		else if (time == 15 && plusminus==1  && state==3)
+		{
+			printf("15Min.wav \n");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_15M.mp3");
+			plusminus = 0;
+		}	
+		else if (time == 16 && plusminus==1  && state==3)
+		{
+			printf("16Min.wav \n");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_16M.mp3");
+			plusminus = 0;
+		}
+		else if (time == 17 && plusminus==1  && state==3)
+		{
+			printf("17Min.wav \n");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_17M.mp3");
+			plusminus = 0;
+		}
+		else if (time == 18 && plusminus==1  && state==3)
+		{
+			printf("18Min.wav \n");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_18M.mp3");
+			plusminus = 0;
+		}
+		else if (time == 19 && plusminus==1  && state==3)
+		{
+			printf("19Min.wav \n");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_19M.mp3");
+			plusminus = 0;
+		}
+				
+		else if (time == 20 && plusminus==1  && state==3)
+		{
+			printf("20Min.wav \n");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_20M.mp3");
+			plusminus = 0;
+		}
+		else if (time == 21 && plusminus==1  && state==3)
+		{
+			printf("21Min.wav \n");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_21M.mp3");
+			plusminus = 0;
+		}
+				
+		else if (time == 22 && plusminus==1  && state==3)
+		{
+			printf("22Min.wav \n");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_22M.mp3");
+			plusminus = 0;
+		}		
+		else if (time == 13 && plusminus==1  && state==3)
+		{
+			printf("23Min.wav \n");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_23M.mp3");
+			plusminus = 0;
+		}
+		
+		if (degree == 60 && plusminus==1 && state==2)
+		{
+			printf("60Degrees.wav \n" );
+			degree = 60;
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_60Deg.mp3");
+				plusminus = 0;
+		}
+		else if (degree == 40 && plusminus==1 && state==2)
+		{
+			degree = 60;
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_60Deg.mp3");
+				plusminus = 0;
+		}
+		else if (degree == 80 && plusminus==1 && state==2)
+		{
+			printf("80Degrees.wav \n");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_80Deg.mp3");
+				plusminus = 0;
+		}
+		else if (degree == 100 && plusminus==1 && state==2)
+		{
+			printf("100Degrees.wav \n");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_100Deg.mp3");
+				plusminus = 0;
+		}
+		else if (degree == 120 && plusminus==1 && state==2)
+		{
+			printf("120Degrees.wav \n");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_120Deg.mp3");
+				plusminus = 0;
+		}
+		else if (degree == 140 && plusminus==1 && state==2)
+		{
+			printf("140Degrees.wav \n");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_140Deg.mp3");
+				plusminus = 0;
+		}
+		else if (degree == 160 && plusminus==1 && state==2)
+		{
+			printf("160Degrees.wav \n");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_160Deg.mp3");
+				plusminus = 0;
+		}
+		else if (degree == 180 && plusminus==1 && state==2)
+		{
+			printf("180Degrees.wav \n");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_180Deg.mp3");
+				plusminus = 0;
+		}
+		else if (degree == 200 && plusminus==1 && state==2)
+		{
+			printf("200Degrees.wav \n");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_200Deg.mp3");	
+			plusminus = 0;
+		}
+		else if (degree == 220 && plusminus==1 && state==2)
+		{
+			printf("220Degrees.wav \n");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_220Deg.mp3");
+				plusminus = 0;
+		}
+		else if (degree == 240 && plusminus==1 && state==2)
+		{
+			printf("240Degrees.wav \n");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_240Deg.mp3");
+			plusminus = 0;
+		}
+		else if (degree == 260 && plusminus==1 && state==2)
+		{
+			degree = 240;
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_240Deg.mp3");
+				plusminus = 0;
+		}
+		sleep(1);
+	}
+}
+/*
+void Timer()
+{
+	int T=0, time = 10;
+	while (digitalRead(10) != 1)
+	{
+		if (T == 4)
+		{
+			time++;
+		}
+		else if (T == 5)
+		{
+			time--;
+		}
+		if (time == 1)
+		{
+			printf("1Min.wav");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_1M.mp3");
+		}
+		else if (time == 2)
+		{
+			printf("2Min.wav");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_2M.mp3");
+		}
+		else if (time == 3)
+		{
+			printf("3Min.wav");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_3M.mp3");
+		}
+		else if (time == 4)
+		{
+			printf("4Min.wav");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_4M.mp3");
+		}
+		else if (time == 5)
+		{
+			printf("5Min.wav");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_5M.mp3");
+		}
+		else if (time == 6)
+		{
+			printf("6Min.wav");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_6M.mp3");
+		}
+		else if (time == 7)
+		{
+			printf("7Min.wav");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_7M.mp3");
+		}
+		else if (time == 8)
+		{
+			printf("8Min.wav");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_8M.mp3");
+		}
+		else if (time == 9)
+		{
+			printf("9Min.wav");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_9M.mp3");
+		}
+		else if (time == 10)
+		{
+			printf("10Min.wav \n");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_10M.mp3");
+		}
+		else if (time == 11)
+		{
+			printf("11Min.wav \n");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_11M.mp3");
+		}
+		else if (time == 12)
+		{
+			printf("12Min.wav \n");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_12M.mp3");
+		}
+		else if (time == 13)
+		{
+			printf("13Min.wav \n");
+			system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_13M.mp3");
+		}
+		else if (time == 14)
+		{
+			printf("14Min.wav \n");
+		}
+		else if (time == 15)
+		{
+			printf("15Min.wav \n");
+		}
+		else if (time == 16)
+		{
+			printf("16Min.wav \n");
+		}
+		else if (time == 17)
+		{
+			printf("17Min.wav \n");
+		}
+		else if (time == 18)
+		{
+			printf("18Min.wav \n");
+		}
+		else if (time == 19)
+		{
+			printf("19Min.wav \n");
+		}
+	}
+}
+*/
+
+void play240()
+{
+	printf("240Degrees.wav \n");
+	system("mpg123 /home/pi/testgeany/HOB_Voice/TOM_240Deg.mp3");
+		
+}
