@@ -3,7 +3,7 @@ This project documents the work done for the inaugural Makethon held by Tikkun O
 
 ## Challenge
 The challenge for our team is as follows:
-<img src="challenge.jpg" rotate="270" width="75%" align="center">
+<img src="challenge.jpg" rotate="270" width="65%" align="center">
 
 ## Solution
 
