@@ -24,6 +24,8 @@ TOTAL COST < $80 excluding the off-the-shelf hob (~$60)
 The hardware connectivity is as follows:
 <img src="hardware.jpg" width="75%" align="center">
 
+*Note: There actually is no need for two resistors for each switch. One resistor to ground will suffice.
+
 ## Software logic
 The raspberry pi is programmed to follow the logic of the hob as follows. 
 The aim is to keep the hob simple to use and hence, some additional features were de-activated/not programmed into the raspberry pi.
