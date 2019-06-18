@@ -44,3 +44,5 @@ For this prototype, we also took out the display panel (4 digits 7 segment displ
 The key problem of this solution is ensuring that the user presses two buttons at any one time. A feedback loop can be implemented in future to check that the raspberry pi and the hob are both at the same state. For example, the raspberry pi can read the LED indicators to check that it is in the same state as the hob e.g. stir fry mode, timer mode. There is also a buzzer sound with each press of the hob switch that the raspberry pi can check against.
 
 Also, for hobs that use button switches (instead of capacitive sensors as switches), the signal can be tapped directly from the switch and there is no need to add extra switches on top.
+
+Lastly, a timer countdown function can also be implemented e.g. notification to the user that there is 5min and 1min left to the timer.
