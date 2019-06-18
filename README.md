@@ -38,7 +38,7 @@ The final prototype that was presented looks like this:
 
 <img src="prototype2.jpg" rotate="270" width = "30%" align="center">
 
-For this prototype, we also took out the display panel (4 digits 7 segment display) as it was too dim where is originally was in the hob.
+For this prototype, we also took out the display panel (4 digits 7 segment display) as it was too dim where it originally was in the hob.
 
 ## Future Improvement
 The key problem of this solution is ensuring that the user presses two buttons at any one time. A feedback loop can be implemented in future to check that the raspberry pi and the hob are both at the same state. For example, the raspberry pi can read the LED indicators to check that it is in the same state as the hob e.g. stir fry mode, timer mode. There is also a buzzer sound with each press of the hob switch that the raspberry pi can check against.
