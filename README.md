@@ -4,4 +4,4 @@ This project documents the work done for the inaugural Makethon held by Tikkun O
 
 The challenge for our team is as follows:
 ![Challenge](challenge.jpg?rotate=270)
-![Challenge]<img src="challenge.jpg" rotate="270">
+![Challenge]<img src="challenge.jpg" rotate="270" width=50%>
