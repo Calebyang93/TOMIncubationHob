@@ -3,6 +3,7 @@ This project documents the work done for the inaugural Makethon held by Tikkun O
 
 ## Challenge
 The challenge for our team is as follows:
+
 <img src="challenge.jpg" rotate="270" width="65%" align="center">
 
 ## Solution
@@ -18,6 +19,10 @@ Also, the Design Team provided solutions to make the hob safer for the Visually-
 4. Silicone pads
 
 TOTAL COST < $80 excluding the off-the-shelf hob (~$60)
+
+## Circuit diagram
+The hardware connectivity is as follows:
+<img src="hardware.jpg" width="75%" align="center">
 
 ## Software logic
 The raspberry pi is programmed to follow the logic of the hob as follows. 
