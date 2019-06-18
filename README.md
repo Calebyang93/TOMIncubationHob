@@ -3,7 +3,7 @@ This project documents the work done for the inaugural Makethon held by Tikkun O
 
 ## Challenge
 The challenge for our team is as follows:
-![Challenge]<img src="challenge.jpg" rotate="270">
+<img src="challenge.jpg" rotate="270" width="75%">
 
 ## Solution
 
@@ -22,7 +22,7 @@ TOTAL COST < $80 excluding the off-the-shelf hob (~$60)
 The raspberry pi is programmed to follow the logic of the hob as follows. 
 The aim is to keep the hob simple to use and hence, some additional features were de-activated/not programmed into the raspberry pi.
 
-![logic]<img src="logic.jpg" rotate="270">
+![logic]<img src="logic.jpg" rotate="270" width="75%">
 
 ## Prototype
 The final prototype that was presented looks like this:
