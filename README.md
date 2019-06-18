@@ -3,7 +3,7 @@ This project documents the work done for the inaugural Makethon held by Tikkun O
 
 ## Challenge
 The challenge for our team is as follows:
-<img src="challenge.jpg" rotate="270" width="75%">
+<img src="challenge.jpg" rotate="270" width="75%" align="center">
 
 ## Solution
 
@@ -16,17 +16,18 @@ Also, the Design Team provided solutions to make the hob safer for the Visually-
 2. Speaker
 3. 5 button switches
 4. Silicone pads
+
 TOTAL COST < $80 excluding the off-the-shelf hob (~$60)
 
 ## Software logic
 The raspberry pi is programmed to follow the logic of the hob as follows. 
 The aim is to keep the hob simple to use and hence, some additional features were de-activated/not programmed into the raspberry pi.
 
-![logic]<img src="logic.jpg" rotate="270" width="75%">
+<img src="logic.jpg" rotate="270" width="75%" align="center">
 
 ## Prototype
 The final prototype that was presented looks like this:
-![Protoptype]<img src="prototype.jpg" rotate="270">
+<img src="prototype.jpg" rotate="270" align="center">
 
 ## Future Improvement
 The key problem of this solution is ensuring that the user presses two buttons at any one time. A feedback loop can be implemented in future to check that the raspberry pi and the hob are both at the same state. For example, the raspberry pi can read the LED indicators to check that it is in the same state as the hob e.g. stir fry mode, timer mode. There is also a buzzer sound with each press of the hob switch that the raspberry pi can check against.
