@@ -36,6 +36,9 @@ The aim is to keep the hob simple to use and hence, some additional features wer
 The final prototype that was presented looks like this:
 <img src="prototype.jpg" rotate="270" align="center">
 
+The buttons are placed directly on top of the existing capacitive switches of the hob.
+Stickers are added above the buttons to indicate their location.
+
 <img src="prototype2.jpg" rotate="270" width = "30%" align="center">
 
 For this prototype, we also took out the display panel (4 digits 7 segment display) as it was too dim where it originally was in the hob.
