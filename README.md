@@ -22,7 +22,7 @@ TOTAL COST < $80 excluding the off-the-shelf hob (~$60)
 
 ## Circuit diagram
 The hardware connectivity is as follows:
-<img src="hardware.jpg" width="75%" align="center">
+<img src="Switches.jpg" width="75%" align="center">
 
 *Note: There actually is no need for two resistors for each switch. One resistor to ground will suffice.
 
